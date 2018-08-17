@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
        final SearchView searchActionView = (SearchView) search.getActionView();
         assert searchManager != null;
         searchActionView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchActionView.setIconifiedByDefault(false);
+        searchActionView.setIconifiedByDefault(true);
         searchActionView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -67,13 +67,15 @@ public class MainActivity extends AppCompatActivity {
                 sentiments.enqueue(new Callback<Example>() {
                     @Override
                     public void onResponse(@NonNull Call<Example> call, @NonNull Response<Example> response) {
-                        assert response.body() != null;
-                        setupPieChart(Query,response.body().getPercentages());
+                        if (response.isSuccessful()) {
+                            Percentages percentages = response.body().getPercentages();
+                            setupPieChart(Query, percentages);
+                        }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<Example> call, @NonNull Throwable t) {
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(MainActivity.this, "Connect to Internet", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                chart.animateY(1000);
                 return false;
             }
         });
@@ -108,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         chart.setData(data);
         chart.animateY(1000);
         chart.invalidate();
-
 
     }
 }

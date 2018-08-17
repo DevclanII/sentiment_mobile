@@ -9,5 +9,5 @@ import retrofit2.http.Query;
 
 public interface ApiCallInterface {
     @POST("sentiment")
-    Call<Example>mSentiments(@Query ("q")String sentiment , @Query("n") String numberOfTweets);
+    Call<Example>mSentiments(@Query ("Sentiment")String sentiment , @Query("Number") String numberOfTweets);
 }

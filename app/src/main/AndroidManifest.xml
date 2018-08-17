@@ -13,24 +13,22 @@
         android:theme="@android:style/Theme.Material">
         <activity android:name=".SplashScreen"
             android:theme="@style/SplashScreenTheme">
-            <meta-data
-                android:name="android.app.searchable"
-                />
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-            <intent-filter >
-                <action android:name="android.intent.action.WEB_SEARCH"/>
-            </intent-filter>
+
         </activity>
 
 
         <activity android:name=".MainActivity"
             android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.SEARCH" />
+        </intent-filter>
+        <intent-filter >
+            <action android:name="android.intent.action.WEB_SEARCH"/>
+        </intent-filter>
         </activity>
     </application>
 
