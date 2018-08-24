@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             @Override
             public boolean onQueryTextSubmit(String query) {
                 progressBar.setVisibility(View.VISIBLE);
+                progressBar.bringToFront();
                final String Query = query.replaceAll("\\s","");
                 Retrofit retrofit=RetrofitBuilder.retrofitBuilder();
                 ApiCallInterface apiCallInterface=retrofit.create(ApiCallInterface.class);
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         switch(selectedItem){
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
