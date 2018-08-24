@@ -2,16 +2,22 @@ package com.example.musa.twisent;
 
 import android.app.SearchManager;
 import android.content.Context;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+
 import android.widget.ProgressBar;
+
 import android.widget.Toast;
 
 import com.example.musa.twisent.ApiCall.ApiCallInterface;
@@ -32,10 +38,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     ProgressBar progressBar;
     static PieChart chart;
-    public int numberOfTweets=100;
+    public int numberOfTweets;
     public static String Sentiments[]={"Negative","Positive","Neutral"};
 
     @Override
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
          progressBar=findViewById(R.id.progressBar);
          chart=findViewById(R.id.pieChart);
+         setupSharedPreferences();
 
     }
 
@@ -93,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int selectedItem =item.getItemId();
+        switch(selectedItem){
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this,SettingActivity.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -112,4 +124,27 @@ public class MainActivity extends AppCompatActivity {
         chart.invalidate();
 
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getResources().getString(R.string.pref_sentiment))){
+            numberOfTweets=Integer.parseInt(sharedPreferences.getString(getString(R.string.pref_sentiment),String.valueOf(100)));
+        }
+
+
+    }
+    private void setupSharedPreferences(){
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
+        numberOfTweets=Integer.parseInt(sharedPreferences.getString(getString(R.string.pref_sentiment),String.valueOf(100)));
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
 }

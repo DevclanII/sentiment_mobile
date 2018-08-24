@@ -1,6 +1,12 @@
 package com.example.musa.twisent;
 
-import PreferenceFragmentCompact;
 
-public class SettingsFragment extends PreferenceFragmentCompact {
+import android.os.Bundle;
+import android.support.v7.preference.PreferenceFragmentCompat;
+
+public class SettingsFragment extends PreferenceFragmentCompat {
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        addPreferencesFromResource(R.xml.pref_screen);
+    }
 }

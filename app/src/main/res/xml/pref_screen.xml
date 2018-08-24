@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<EditTextPreference
+    android:key="@string/pref_sentiment"
+    android:editable="true"
+    android:defaultValue="@string/default_sentiment"
+    android:title="@string/pref_title"
+    android:inputType="number"/>
 
 </PreferenceScreen>
